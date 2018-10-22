@@ -1,0 +1,113 @@
+html {
+    height: 100%;
+    width: 100%;
+}
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+}
+
+.demo-layout-transparent {
+    /*background: url('../assets/demos/transparent.jpg') center / cover;*/
+}
+
+.demo-layout-transparent .mdl-layout__header,
+.demo-layout-transparent .mdl-layout__drawer-button {
+    /* This background is dark, so we set text to white. Use 87% black instead if
+       your background is light. */
+    color: black;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    transition: width 0.5s;
+}
+
+.reduce-width {
+    width: 80% !important;
+}
+
+#geocoder {
+    transition: width 0.5s;
+}
+
+/*.geocoder {*/
+    /*position:absolute;*/
+    /*width:50%;*/
+    /*left:50%;*/
+    /*margin-left:-25%;*/
+    /*top:20px;*/
+/*}*/
+
+.mapboxgl-ctrl-geocoder, .mapboxgl-ctrl-geocoder ul {
+    margin: 2em auto;
+}
+
+.mapbox-gl-draw_ctrl-draw-btn.mapbox-gl-draw_line,
+.mapbox-gl-draw_ctrl-draw-btn.mapbox-gl-draw_trash,
+.geocoder-icon.geocoder-icon-search {
+    display: none !important;
+}
+
+.mapboxgl-ctrl-geocoder.mapboxgl-ctrl > input {
+    padding-left: 10px !important;
+}
+
+#estimates-container {
+    height: 100%;
+    width: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transition: width 0.5s;
+    /*background-color: #BBDEFB;*/
+}
+
+#estimates-container.show {
+    width: 20%;
+}
+
+.estimates-card {
+    width: 100%;
+    height: 30%;
+    background-color:white;
+    cursor: pointer;
+    transition: background-color 0.35s;
+    /*text-align: center;*/
+    /*border-bottom: 1px solid black;*/
+}
+
+.estimates-card:hover {
+    background-color: #eee;
+}
+
+#btn-book-ride {
+    width: 90%;
+    height: 7%;
+    position: absolute;
+    right: 5%;
+    bottom: 1.5%;
+    text-align: center;
+}
+
+.car-type-icon {
+    display: block;
+    /*position: absolute;*/
+    height: 38%;
+    width: auto;
+    text-align: center;
+    margin: 4% auto;
+    /*left: 0;*/
+    /*right: 0;*/
+}
+
+.car-type-text {
+    text-align: center;
+    font-size: 1.3em;
+    margin-bottom: 0.77em;
+}
