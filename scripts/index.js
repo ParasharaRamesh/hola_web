@@ -1,4 +1,7 @@
-mapboxgl.accessToken = 'YOUR_TOKEN_HERE';
+const mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
+const MapboxDraw = require('@mapbox/mapbox-gl-draw');
+const MapboxGeocoder = require('@mapbox/mapbox-gl-geocoder');
+mapboxgl.accessToken = 'pk.eyJ1IjoibXJhaHVsMTYiLCJhIjoiY2puM2Y2cmZlMDE4MjNwb3g1eTJlZDYwdyJ9.Ylg3AQgXmnTxXwldSaVn9w';
 let map;
 let userCoordinates;
 navigator.geolocation.getCurrentPosition(function (position) {

@@ -1,0 +1,23 @@
+{
+  "name": "hola_web",
+  "version": "1.0.0",
+  "description": "Simple web frontend for Hola REST API",
+  "main": "./scripts/index.js",
+  "scripts": {
+    "build": "cd scripts && browserify index.js -o bundle.js",
+    "watch": "cd scripts && watchify index.js -o bundle.js"
+  },
+  "author": "Rahul M",
+  "license": "ISC",
+  "devDependencies": {
+    "browserify": "^16.2.3",
+    "watchify": "^3.11.0"
+  },
+  "dependencies": {
+    "@mapbox/mapbox-gl-draw": "^1.0.9",
+    "@mapbox/mapbox-gl-geocoder": "^2.3.0",
+    "guidance-sim": "git+https://github.com/mapbox/guidance-sim.git",
+    "mapbox-gl": "^0.50.0",
+    "material-design-lite": "^1.3.0"
+  }
+}

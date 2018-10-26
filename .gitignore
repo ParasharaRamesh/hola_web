@@ -26,3 +26,6 @@
 
 # Editor-based Rest Client
 .idea/httpRequests
+
+node_modules/
+scripts/bundle.js
