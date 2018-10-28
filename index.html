@@ -9,9 +9,10 @@
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <!-- Mapbox -->
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' />
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.4/mapbox-gl-draw.css' type='text/css' />
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css' type='text/css' />
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v3.1.3/mapbox-gl-directions.css' type='text/css' />
 
     <link rel="stylesheet" href="styles/index.css">
 </head>
@@ -19,27 +20,9 @@
 
 
 <div class="demo-layout-transparent mdl-layout mdl-js-layout">
-    <!--<header class="mdl-layout__header mdl-layout__header">-->
-    <!--<header class="mdl-layout__header mdl-layout__header&#45;&#45;transparent">-->
-        <!--<div class="mdl-layout__header-row">-->
-            <!--&lt;!&ndash; Title &ndash;&gt;-->
-            <!--<span class="mdl-layout-title">Title</span>-->
-            <!--&lt;!&ndash; Add spacer, to align navigation to the right &ndash;&gt;-->
-            <!--<div class="mdl-layout-spacer"></div>-->
-            <!--&lt;!&ndash; Navigation &ndash;&gt;-->
-            <!--<nav class="mdl-navigation">-->
-                <!--<a class="mdl-navigation__link" href="">Link</a>-->
-                <!--<a class="mdl-navigation__link" href="">Link</a>-->
-                <!--<a class="mdl-navigation__link" href="">Link</a>-->
-                <!--<a class="mdl-navigation__link" href="">Link</a>-->
-            <!--</nav>-->
-        <!--</div>-->
-    <!--</header>-->
     <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">Title</span>
-        <nav class="mdl-navigation">
-            <!--<a class="mdl-navigation__link" href="">Link</a>-->
-        </nav>
+        <nav class="mdl-navigation"></nav>
     </div>
     <main class="mdl-layout__content">
         <div id="map"></div>
@@ -67,11 +50,6 @@
                 BOOK RIDE
             </button>
         </div>
-
-        <!--<div id="whereto" class="mdl-textfield mdl-js-textfield mdl-typography&#45;&#45;text-center">-->
-            <!--<input class="mdl-textfield__input" type="text" id="sample1">-->
-            <!--<label class="mdl-textfield__label" for="sample1">Where to?</label>-->
-        <!--</div>-->
     </main>
 </div>
 <script src="scripts/bundle.js"></script>

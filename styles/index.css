@@ -2,16 +2,13 @@ html {
     height: 100%;
     width: 100%;
 }
+
 body {
     height: 100%;
     width: 100%;
     margin: 0;
     padding: 0;
     font-size: 16px;
-}
-
-.demo-layout-transparent {
-    /*background: url('../assets/demos/transparent.jpg') center / cover;*/
 }
 
 .demo-layout-transparent .mdl-layout__header,
@@ -32,32 +29,6 @@ body {
     width: 80% !important;
 }
 
-#geocoder {
-    transition: width 0.5s;
-}
-
-/*.geocoder {*/
-    /*position:absolute;*/
-    /*width:50%;*/
-    /*left:50%;*/
-    /*margin-left:-25%;*/
-    /*top:20px;*/
-/*}*/
-
-.mapboxgl-ctrl-geocoder, .mapboxgl-ctrl-geocoder ul {
-    margin: 2em auto;
-}
-
-.mapbox-gl-draw_ctrl-draw-btn.mapbox-gl-draw_line,
-.mapbox-gl-draw_ctrl-draw-btn.mapbox-gl-draw_trash,
-.geocoder-icon.geocoder-icon-search {
-    display: none !important;
-}
-
-.mapboxgl-ctrl-geocoder.mapboxgl-ctrl > input {
-    padding-left: 10px !important;
-}
-
 #estimates-container {
     height: 100%;
     width: 0;
@@ -65,7 +36,6 @@ body {
     top: 0;
     right: 0;
     transition: width 0.5s;
-    /*background-color: #BBDEFB;*/
 }
 
 #estimates-container.show {
@@ -75,11 +45,9 @@ body {
 .estimates-card {
     width: 100%;
     height: 30%;
-    background-color:white;
+    background-color: white;
     cursor: pointer;
     transition: background-color 0.35s;
-    /*text-align: center;*/
-    /*border-bottom: 1px solid black;*/
 }
 
 .estimates-card:hover {
@@ -97,7 +65,6 @@ body {
 
 .car-type-icon {
     display: block;
-    /*position: absolute;*/
     height: 38%;
     width: auto;
     text-align: center;
@@ -110,4 +77,56 @@ body {
     text-align: center;
     font-size: 1.3em;
     margin-bottom: 0.77em;
+}
+
+.mapboxgl-ctrl-top-left--override-center {
+    position: absolute;
+    margin: auto;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.mapbox-directions-component-keyline {
+    border-bottom-left-radius: 3px !important;
+    border-top-left-radius: 3px !important;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23) !important;
+}
+
+.mapbox-form-label {
+    width: 9px !important;
+    box-shadow: none !important;
+}
+
+.mapbox-directions-origin .mapbox-form-label {
+    background-color: #3f51b5 !important;
+    z-index: unset !important;
+}
+
+.mapbox-directions-origin input[type='text'] {
+    box-shadow: none !important;
+}
+
+.mapbox-directions-destination .mapbox-form-label {
+    background-color: #f50057 !important;
+}
+
+.directions-icon-arrive, .directions-icon-depart {
+    display: none !important;
+    background-image: none !important;
+}
+
+.mapboxgl-ctrl-geocoder {
+    margin-left: 8px !important;
+}
+
+.directions-icon-reverse {
+    width: 20px !important;
+    left: 12px !important;
+}
+
+.mapboxgl-ctrl-geocoder {
+    border-radius: 0 !important;
+    min-width: calc(100% - 8px) !important;
+    max-width: calc(100% - 8px) !important;
+    z-index: unset !important;
 }
