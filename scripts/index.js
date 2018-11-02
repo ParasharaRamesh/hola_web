@@ -1,9 +1,11 @@
-const secret = require("./secret");
-const mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
+const secret = require("./config");
+const $ = require("jquery");
+
+// TODO: Uncomment for map related features
+/*const mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
 const MapboxDirections = require('@mapbox/mapbox-gl-directions');
-// const routing = require("./routing");
 const customDirectionsStyle = require("./directions_style").customDirectionsStyle;
-mapboxgl.accessToken = secret.accessToken;
+mapboxgl.accessToken = secret.accessToken;*/
 
 let holaMap = {
     map: null,
@@ -16,16 +18,18 @@ let holaMap = {
 navigator.geolocation.getCurrentPosition(function (position) {
     holaMap.userCoordinates = [position.coords.longitude, position.coords.latitude];
     // noinspection JSUnresolvedFunction
-    holaMap.map = new mapboxgl.Map({
+    // TODO: Uncomment for map related features
+    /*holaMap.map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/light-v9',
         center: holaMap.userCoordinates,
         zoom: 13
     });
 
-    // holaMap.router = new routing.Router(holaMap.map);
+    initMapElements();*/
 
-    initMapElements();
+    showRightPane();
+    initFareEstimatesPane();
 });
 
 function initMapElements() {
@@ -72,6 +76,10 @@ function doOnLoadTasks() {
     holaMap.geolocate.trigger();
 
     markCabLocations();
+
+    holaMap.directions.on('route', () => {
+        showFareEstimatesPane();
+    });
 }
 
 
@@ -115,8 +123,28 @@ function markCabLocations() {
     });
 }
 
-function showFareEstimatesPane() {
+function showRightPane() {
     document.getElementById("map").classList.add("reduce-width");
-    document.getElementById("geocoder").classList.add("reduce-width");
-    document.getElementById("estimates-container").classList.add("show");
+    document.getElementById("right-pane").classList.add("show");
+}
+
+function initFareEstimatesPane() {
+    let estimateCards = document.getElementsByClassName('estimates-card');
+    for (let i = 0; i < estimateCards.length; i++) {
+        let estimateCard = estimateCards[i];
+        estimateCard.onclick = function() {
+            estimateCard.getElementsByClassName("booking-spinner")[0].classList.add("is-active");
+            estimateCard.classList.add("active");
+            for (let j = 0; j < estimateCards.length; j++) {
+                if(i !== j) {
+                    estimateCards[j].classList.add("hidden");
+                }
+            }
+            setTimeout(() => {
+                $('#estimates-container').hide(100, function () {
+                    $('#ride-details-container').show(100);
+                });
+            }, 3000);
+        };
+    }
 }

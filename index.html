@@ -9,10 +9,13 @@
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <!-- Mapbox -->
-    <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' />
-    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.4/mapbox-gl-draw.css' type='text/css' />
-    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css' type='text/css' />
-    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v3.1.3/mapbox-gl-directions.css' type='text/css' />
+    <!-- TODO: Uncomment for map related features -->
+    <!--<link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' />-->
+    <!--<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.4/mapbox-gl-draw.css' type='text/css' />-->
+    <!--<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css' type='text/css' />-->
+    <!--<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v3.1.3/mapbox-gl-directions.css' type='text/css' />-->
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400|Sarina" rel="stylesheet">
 
     <link rel="stylesheet" href="styles/index.css">
 </head>
@@ -20,35 +23,99 @@
 
 
 <div class="demo-layout-transparent mdl-layout mdl-js-layout">
+    <!-- Navigation drawer -->
     <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">Title</span>
         <nav class="mdl-navigation"></nav>
     </div>
+    <!-- Main content -->
+    <!-- Everything that appears when navigation drawer is closed has markup here. -->
     <main class="mdl-layout__content">
+        <!-- Map is loaded into this div -->
         <div id="map"></div>
-        <div id='geocoder' class='geocoder'></div>
-        <div id='calculated-line'></div>
-        <div id="estimates-container" class="mdl-card mdl-shadow--2dp">
-            <div class="estimates-card">
-                <img src="icons/car-type-hatchback.png" class="car-type-icon"/>
-                <div class="car-type-text">Hola Hatchback</div>
-                <div class="car-type-text">₹ 49</div>
+        <!-- Right pane, houses fare estimates and ride details -->
+        <div id="right-pane" class="mdl-card mdl-shadow--2dp">
+
+            <div id="estimates-container">
+                <div class="estimates-card center-content hatch">
+                    <div class="car-type-desc center-content">Affordable, compact rides</div>
+                    <img src="icons/car-type-hatchback.png" class="car-type-icon hatch"/>
+                    <div class="car-type-text-container center-content">
+                        <span class="car-type-brand">Hola</span>
+                        <span class="car-type-name">Hatch</span>
+                    </div>
+                    <div class="car-type-fare-container center-content">
+                        <span class="car-type-fare-currency-symbol">₹</span>
+                        <span class="car-type-fare-amount">49</span>
+                    </div>
+                    <div class="booking-spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner"></div>
+                    <div class="finding-ride">Finding your <span class="finding-ride-car-type">Hatch</span></div>
+                </div>
+                <div class="estimates-card center-content sedan">
+                    <div class="car-type-desc center-content">Comfortable sedans, top drivers</div>
+                    <img src="icons/car-type-sedan.png" class="car-type-icon sedan"/>
+                    <div class="car-type-text-container center-content">
+                        <span class="car-type-brand">Hola</span>
+                        <span class="car-type-name">Sedan</span>
+                    </div>
+                    <div class="car-type-fare-container center-content">
+                        <span class="car-type-fare-currency-symbol">₹</span>
+                        <span class="car-type-fare-amount">99</span>
+                    </div>
+                    <div class="booking-spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner"></div>
+                    <div class="finding-ride">Finding your <span class="finding-ride-car-type">Sedan</span></div>
+                </div>
+                <div class="estimates-card center-content minivan">
+                    <div class="car-type-desc center-content">Spacious MUVs for groups of <= 6</div>
+                    <img src="icons/car-type-minivan.png" class="car-type-icon minivan"/>
+                    <div class="car-type-text-container center-content">
+                        <span class="car-type-brand">Hola</span>
+                        <span class="car-type-name">Minivan</span>
+                    </div>
+                    <div class="car-type-fare-container center-content">
+                        <span class="car-type-fare-currency-symbol">₹</span>
+                        <span class="car-type-fare-amount">149</span>
+                    </div>
+                    <div class="booking-spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner"></div>
+                    <div class="finding-ride">Finding your <span class="finding-ride-car-type">Minivan</span></div>
+                </div>
             </div>
-            <div class="estimates-card">
-                <img src="icons/car-type-sedan.png" class="car-type-icon"/>
-                <div class="car-type-text">Hola Sedan</div>
-                <div class="car-type-text">₹ 99</div>
+
+            <div id="ride-details-container">
+                <div id="ride-car-details-container">
+                    <div id="ride-car-type-wrapper" class="center-content">Hola <span id="ride-car-type">Hatch</span>
+                    </div>
+                    <div id="ride-car-details-wrapper">
+                        <img src="img/swift.png" alt="Car Model" id="ride-car-model-img">
+                        <div id="ride-car-details">
+                            <span id="ride-car-model-name">Suzuki Swift</span>
+                            <span id="ride-car-model-license">KA 41 M 1234</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="ride-driver-details-container">
+                    <div id="ride-driver-details-wrapper">
+                        <img src="img/gilfoyle.png" alt="Car Model" id="ride-driver-img">
+                        <div id="ride-driver-details">
+                            <span id="ride-driver-name">Bertram Gilfoyle</span>
+                            <span id="ride-driver-rating">4.8 <i class="material-icons">star_rate</i></span>
+                        </div>
+                    </div>
+                    <button id="button-call" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                            onclick="location.href='tel:9876543210'">
+                        CALL
+                    </button>
+                </div>
+                <div id="reviews">
+                    <div id="reviews-heading">REVIEWS</div>
+                    <div class="review">Very sarcastic :P.</div>
+                    <div class="review">Comfortable ride to Pied Piper office!</div>
+                    <div class="review">Satan bless you, Mr Gilfoyle.</div>
+                </div>
+                <button id="button-cancel" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                    CANCEL
+                </button>
             </div>
-            <div class="estimates-card">
-                <img src="icons/car-type-minivan.png" class="car-type-icon"/>
-                <div class="car-type-text">Hola Minivan</div>
-                <div class="car-type-text">₹ 159</div>
-            </div>
-            <!--<div class="estimates-card mdl-card mdl-shadow&#45;&#45;2dp"></div>-->
-            <!--<div class="estimates-card mdl-card mdl-shadow&#45;&#45;2dp"></div>-->
-            <button id="btn-book-ride" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
-                BOOK RIDE
-            </button>
         </div>
     </main>
 </div>

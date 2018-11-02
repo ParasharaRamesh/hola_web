@@ -11,10 +11,13 @@ body {
     font-size: 16px;
 }
 
+/* TODO: Remove when map is enabled */
+body {
+    background: #eee;
+}
+
 .demo-layout-transparent .mdl-layout__header,
 .demo-layout-transparent .mdl-layout__drawer-button {
-    /* This background is dark, so we set text to white. Use 87% black instead if
-       your background is light. */
     color: black;
 }
 
@@ -22,35 +25,80 @@ body {
     height: 100%;
     width: 100%;
     position: absolute;
-    transition: width 0.5s;
+    transition: width 0.35s ease-in-out;
 }
 
 .reduce-width {
-    width: 80% !important;
+    width: 75% !important;
 }
 
-#estimates-container {
+#right-pane {
     height: 100%;
     width: 0;
     position: absolute;
     top: 0;
     right: 0;
     transition: width 0.5s;
+    overflow: auto;
+    border-radius: 0 !important;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
 }
 
-#estimates-container.show {
-    width: 20%;
+#right-pane.show {
+    width: 25%;
+}
+
+#estimates-container, #ride-details-container {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+}
+
+#ride-details-container {
+    display: none;
 }
 
 .estimates-card {
-    width: 100%;
-    height: 30%;
-    background-color: white;
+    min-height: 33.33%;
+    max-height: 100%;
+    padding-bottom: 0.85em;
+    background-color: #fff;
     cursor: pointer;
-    transition: background-color 0.35s;
+    transition: all 0.1s ease-in-out;
+    box-sizing: border-box;
+    border-left: 1em solid transparent;
 }
 
-.estimates-card:hover {
+.estimates-card.hidden {
+    max-height: 0;
+    overflow: hidden;
+}
+
+.estimates-card.active {
+    background-color: #3f51b5;
+    border-left: 0;
+    min-height: 100%;
+    overflow: hidden;
+}
+
+.estimates-card.hatch {
+    border-left: 1em solid #7986CB;
+}
+
+.estimates-card.sedan {
+    border-left: 1em solid #3F51B5;
+}
+
+.estimates-card.minivan {
+    border-left: 1em solid #1A237E;
+}
+
+.estimates-card:last-of-type {
+    border-bottom: none;
+}
+
+.estimates-card:not(.active):hover {
     background-color: #eee;
 }
 
@@ -64,69 +112,231 @@ body {
 }
 
 .car-type-icon {
+    height: auto;
+    width: 25%;
+    text-align: center;
+    margin: 0 auto;
+    background-color: #4fc3f7;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.35s;
+}
+
+.car-type-icon.hatch {
+    background-color: #7986CB;
+}
+
+.car-type-icon.sedan {
+    background-color: #3F51B5;
+}
+
+.car-type-icon.minivan {
+    background-color: #1A237E;
+}
+
+.car-type-text-container {
+    padding: 0.6em 0 0.3em 0;
+    max-height: 100%;
+}
+
+.car-type-brand {
+    font-size: 0.9em;
+}
+
+.car-type-name {
+    font-family: 'Sarina', cursive;
+}
+
+.center-content {
+    text-align: center;
+}
+
+.car-type-desc {
+    max-height: 100%;
+    font-size: 0.85em;
+    padding: 1em 0;
+    font-weight: 300;
+    transition: all 0.1s;
+}
+
+.car-type-fare-amount {
+    line-height: 1em;
+    vertical-align: top;
+}
+
+.booking-spinner {
+    max-height: 0;
+    transition: all 0.35s;
+}
+
+.finding-ride {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0;
+    color: #fff;
+    -webkit-transition: all 0.1s;
+    -moz-transition: all 0.1s;
+    -o-transition: all 0.1s;
+    transition: all 0.1s;
+}
+
+.finding-ride .finding-ride-car-type {
+    font-family: 'Sarina', cursive;
+}
+
+.estimates-card.active .car-type-icon {
+    box-shadow: none;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    width: 100%;
+    height: auto;
+    background-color: #3f51b5;
+}
+
+.estimates-card.active .car-type-desc {
+    max-height: 0 !important;
+    padding: 0;
+    color: transparent;
+    overflow: hidden;
+}
+
+.estimates-card.active .car-type-text-container {
+    max-height: 0;
+    padding: 0;
+    color: transparent;
+    overflow: hidden;
+}
+
+.estimates-card.active .car-type-fare-container {
+    max-height: 0;
+    padding: 0;
+    color: transparent;
+    overflow: hidden;
+}
+
+.estimates-card.active .booking-spinner {
+    max-height: 100%;
+}
+
+.estimates-card.active .finding-ride {
+    max-height: 100%;
+    padding: 1em 0;
+}
+
+.mdl-spinner__layer {
+    border-color: white !important;
+}
+
+/* Ride Details */
+#ride-details-container {
+}
+
+#ride-car-details-container, #ride-driver-details-container {
+    background-color: #3f51b5;
+    color: #fff;
+}
+
+#ride-driver-details-container {
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+#ride-car-type-wrapper {
+    max-height: 100%;
+    padding: 0.6em 0 0 0;
+    -webkit-transition: all 0.1s;
+    -moz-transition: all 0.1s;
+    -o-transition: all 0.1s;
+    transition: all 0.1s;
+}
+
+#ride-car-type-wrapper #ride-car-type {
+    font-family: 'Sarina', cursive;
+}
+
+#ride-car-details-wrapper, #ride-driver-details-wrapper {
+    margin: 0 1.1em;
+    padding: 1em 0;
+    border-bottom: 1px solid #ddd;
+}
+
+#ride-driver-details-wrapper {
+    border-bottom: 0;
+}
+
+#ride-car-details-wrapper:after, #ride-driver-details-wrapper:after {
+    content: "";
     display: block;
-    height: 38%;
-    width: auto;
-    text-align: center;
-    margin: 4% auto;
-    /*left: 0;*/
-    /*right: 0;*/
+    clear: both;
 }
 
-.car-type-text {
-    text-align: center;
-    font-size: 1.3em;
-    margin-bottom: 0.77em;
+#ride-car-model-img, #ride-driver-img {
+    width: calc(25% - 1.1em);
+    height: auto;
+    float: left;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    background-color: #3f51b5;
 }
 
-.mapboxgl-ctrl-top-left--override-center {
+#ride-car-details, #ride-driver-details {
+    display: inline-block;
+    width: calc(75% - 1.1em);
+    float: left;
+    padding: 0 0 0 1em;
+}
+
+#ride-car-model-name, #ride-car-model-license, #ride-driver-name, #ride-driver-rating, #ride-driver-phone {
+    display: block;
+    font-size: 0.9em;
+}
+
+#ride-driver-phone {}
+
+#ride-driver-rating .material-icons, #ride-driver-phone .material-icons {
+    font-size: 0.9em;
+}
+
+#ride-driver-phone .material-icons {
+    font-size: 0.9em;
+}
+
+#button-call {
+    width: 100%;
+    color: #3f51b5;
+    background-color: white;
+}
+
+#reviews {
+    padding: 0 1em;
+}
+
+#reviews-heading {
+    padding: 0.8em 0;
+    font-size: 0.8em;
+    font-weight: 400;
+    color: #3f51b5;
+}
+
+.review {
+    font-style: oblique;
+    padding-bottom: 0.4em;
+    color: #777;
+}
+
+.review:before, .review:after {
+    content: '"';
+}
+
+#button-cancel {
     position: absolute;
-    margin: auto;
-    left: 50%;
-    transform: translate(-50%, 0);
-}
+    bottom: 0;
 
-.mapbox-directions-component-keyline {
-    border-bottom-left-radius: 3px !important;
-    border-top-left-radius: 3px !important;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23) !important;
-}
-
-.mapbox-form-label {
-    width: 9px !important;
-    box-shadow: none !important;
-}
-
-.mapbox-directions-origin .mapbox-form-label {
-    background-color: #3f51b5 !important;
-    z-index: unset !important;
-}
-
-.mapbox-directions-origin input[type='text'] {
-    box-shadow: none !important;
-}
-
-.mapbox-directions-destination .mapbox-form-label {
-    background-color: #f50057 !important;
-}
-
-.directions-icon-arrive, .directions-icon-depart {
-    display: none !important;
-    background-image: none !important;
-}
-
-.mapboxgl-ctrl-geocoder {
-    margin-left: 8px !important;
-}
-
-.directions-icon-reverse {
-    width: 20px !important;
-    left: 12px !important;
-}
-
-.mapboxgl-ctrl-geocoder {
-    border-radius: 0 !important;
-    min-width: calc(100% - 8px) !important;
-    max-width: calc(100% - 8px) !important;
-    z-index: unset !important;
+    width: 100%;
+    color: #B71C1C;
+    background-color: white;
 }

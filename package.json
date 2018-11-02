@@ -18,6 +18,7 @@
     "@mapbox/mapbox-gl-draw": "^1.0.9",
     "@mapbox/mapbox-gl-geocoder": "^2.3.0",
     "guidance-sim": "git+https://github.com/mapbox/guidance-sim.git",
+    "jquery": "^3.3.1",
     "mapbox-gl": "^0.50.0",
     "material-design-lite": "^1.3.0"
   }
