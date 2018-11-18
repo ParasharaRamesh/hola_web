@@ -3,4 +3,7 @@
   <component name="JavaScriptSettings">
     <option name="languageLevel" value="ES6" />
   </component>
+  <component name="ProjectResources">
+    <resource url="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" location="$PROJECT_DIR$" />
+  </component>
 </project>

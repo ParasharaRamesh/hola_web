@@ -1,36 +1,70 @@
 const secret = require("./config");
 const $ = require("jquery");
+const UI = require("./ui").UI;
+let ui = new UI();
 
 // TODO: Uncomment for map related features
-/*const mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
+const mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
 const MapboxDirections = require('@mapbox/mapbox-gl-directions');
 const customDirectionsStyle = require("./directions_style").customDirectionsStyle;
-mapboxgl.accessToken = secret.accessToken;*/
+mapboxgl.accessToken = secret.accessToken;
 
 let holaMap = {
     map: null,
     userCoordinates: null,
+    destinationCoordinates: null,
     geolocate: null,
     geocoder: null,
     directions: null,
+    route: null,
 };
 
-navigator.geolocation.getCurrentPosition(function (position) {
-    holaMap.userCoordinates = [position.coords.longitude, position.coords.latitude];
+checkLogIn();
+
+
+function checkLogIn() {
+    initMap();
+    if(window.localStorage.getItem('key')) {
+        // Logged in
+        $('#map').addClass('show');
+        initLogout();
+        $('#drawer-title').text(window.localStorage.getItem('username'));
+    }
+    else {
+        console.log("Not logged in");
+        $('#login').addClass('show');
+        initLogin();
+    }
+}
+
+
+function initLogin() {
+    document.getElementById('button-login').onclick = function() { ui.login(); };
+}
+
+
+function initLogout() {
+    document.getElementById('nav-logout').onclick = function() { ui.logout(); };
+}
+
+function initMap() {
     // noinspection JSUnresolvedFunction
-    // TODO: Uncomment for map related features
-    /*holaMap.map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/light-v9',
-        center: holaMap.userCoordinates,
-        zoom: 13
+    navigator.geolocation.getCurrentPosition(function (position) {
+        holaMap.userCoordinates = [position.coords.longitude, position.coords.latitude];
+
+        holaMap.map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/light-v9',
+            center: holaMap.userCoordinates,
+            zoom: 13
+        });
+
+        initMapElements();
+
+        initFareEstimatesPane();
     });
+}
 
-    initMapElements();*/
-
-    showRightPane();
-    initFareEstimatesPane();
-});
 
 function initMapElements() {
     let map = holaMap.map;
@@ -57,6 +91,12 @@ function initGeolocateControl() {
         },
         trackUserLocation: true
     });
+
+    holaMap.geolocate.on('geolocate', function (position) {
+        console.log("ongeolocate", position);
+        holaMap.userCoordinates = [position.coords.longitude, position.coords.latitude];
+        holaMap.directions.setOrigin(holaMap.userCoordinates);
+    });
 }
 
 function initMapboxDirections() {
@@ -70,56 +110,26 @@ function initMapboxDirections() {
             profileSwitcher: false
         }
     });
+
 }
 
 function doOnLoadTasks() {
+    ui.map = holaMap.map;
     holaMap.geolocate.trigger();
 
-    markCabLocations();
+    ui.markCarsInLocation(holaMap.userCoordinates);
 
-    holaMap.directions.on('route', () => {
-        showFareEstimatesPane();
-    });
-}
-
-
-function markCabLocations() {
-    let map = holaMap.map;
-    map.loadImage("icons/car-hatchback.png", function (error, image) {
-        if (error) throw error;
-        map.addImage("custom-marker", image);
-        /* Style layer: A style layer ties together the source and image and specifies how they are displayed on the map. */
-        map.addLayer({
-            id: "markers",
-            type: "symbol",
-            /* Source: A data source specifies the geographic coordinate where the image marker gets placed. */
-            source: {
-                type: "geojson",
-                data: {
-                    type: "FeatureCollection",
-                    features: [{
-                        "type": "Feature",
-                        "geometry": {"type": "Point", "coordinates": [77.542373, 12.934848]}
-                    }, {
-                        "type": "Feature",
-                        "geometry": {"type": "Point", "coordinates": [77.534692, 12.936273]}
-                    }, {
-                        "type": "Feature",
-                        "geometry": {"type": "Point", "coordinates": [77.542652, 12.939402]}
-                    }, {
-                        "type": "Feature",
-                        "geometry": {"type": "Point", "coordinates": [77.541282, 12.938578]}
-                    }, {
-                        "type": "Feature",
-                        "geometry": {"type": "Point", "coordinates": [77.538975, 12.939864]}
-                    }]
-                }
-            },
-            layout: {
-                "icon-image": "custom-marker",
-                // "icon-rotate": 90,
-            }
-        });
+    holaMap.directions.on('route', function(response) {
+        console.log("onroute", response);
+        if(!holaMap.route) {
+            let destinationObj = holaMap.directions.getDestination();
+            holaMap.destinationCoordinates = destinationObj.geometry.coordinates;
+            console.log("destinationCoords", holaMap.destinationCoordinates);
+            ui.updateFareEstimates(holaMap.userCoordinates, holaMap.destinationCoordinates);
+            showRightPane();
+            holaMap.route = response;
+            ui.route = holaMap.route;
+        }
     });
 }
 
@@ -133,6 +143,7 @@ function initFareEstimatesPane() {
     for (let i = 0; i < estimateCards.length; i++) {
         let estimateCard = estimateCards[i];
         estimateCard.onclick = function() {
+            ui.map = holaMap.map;
             estimateCard.getElementsByClassName("booking-spinner")[0].classList.add("is-active");
             estimateCard.classList.add("active");
             for (let j = 0; j < estimateCards.length; j++) {
@@ -144,6 +155,9 @@ function initFareEstimatesPane() {
                 $('#estimates-container').hide(100, function () {
                     $('#ride-details-container').show(100);
                 });
+                let fareAmt = estimateCard.getElementsByClassName("car-type-fare-amount")[0].textContent;
+                console.log(i + 1, fareAmt, holaMap.userCoordinates, holaMap.destinationCoordinates);
+                ui.bookRide(i + 1, fareAmt, holaMap.userCoordinates, holaMap.destinationCoordinates);
             }, 3000);
         };
     }
