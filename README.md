@@ -5,7 +5,7 @@ Web frontend for a mock ride-hailing app
 1. ```sh
    $ npm install
    ```
-2. Create `config.js` in `scripts/` and add your Mapbox access token as follows -
+2. Add your Mapbox access token in `scripts/config.js` as follows -
     ```javascript
     module.exports = {
         // Mapbox access token
